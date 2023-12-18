@@ -7,24 +7,36 @@ const masterKey = "4VGP2DN-6EWM4SJ-N6FGRHV-Z3PR3TT";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//1. GET a random joke
+// 1. GET a random joke
 app.get("/random", (req, res) => {
   const randomJoke = jokes[Math.floor(Math.random() * jokes.length)]
   res.json(randomJoke)
 })
 
-//2. GET a specific joke
+// 2. GET a specific joke
 app.get("/jokes/:id", (req, res) => {
   const id = parseInt(req.params.id)
   const specificJoke = jokes.find((joke) => joke.id === id)
   res.json(specificJoke)
 })
 
-//3. Filter jokes by type
+// 3. Filter jokes by type
 app.get("/filter", (req, res) => {
   const type = req.query.type
   const result = jokes.filter((joke) => joke.jokeType === type)
   res.json(result)
+})
+
+// 4. Post a new joke
+app.post("/jokes/new", (req, res) => {
+  const newJoke = {
+    id: jokes.length + 1,
+    jokeText: req.body.text,
+    jokeType: req.body.type
+  }
+  jokes.push(newJoke)
+  console.log(jokes.slice(-1))
+  res.json(newJoke)
 })
 
 app.listen(port, () => {
