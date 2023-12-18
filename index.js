@@ -20,6 +20,13 @@ app.get("/jokes/:id", (req, res) => {
   res.json(specificJoke)
 })
 
+//3. Filter jokes by type
+app.get("/filter", (req, res) => {
+  const type = req.query.type
+  const result = jokes.filter((joke) => joke.jokeType === type)
+  res.json(result)
+})
+
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
 });
