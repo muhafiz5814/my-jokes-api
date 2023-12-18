@@ -39,6 +39,22 @@ app.post("/jokes/new", (req, res) => {
   res.json(newJoke)
 })
 
+// 5. Update an existing joke
+app.put("/jokes/:id", (req, res) => {
+  const jokeIndex = jokes.findIndex((joke) => joke.id === parseInt(req.params.id))
+  jokes[jokeIndex] = {
+    id: parseInt(req.params.id),
+    jokeText: req.body.text,
+    jokeType: req.body.type
+  }
+
+// Another approach to update joke inplace.
+  // jokes[jokeIndex].jokeText = req.body.text
+  // jokes[jokeIndex].jokeType = req.body.type
+
+  res.json(jokes[jokeIndex])
+})
+
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
 });
