@@ -39,6 +39,20 @@ app.post("/jokes/new", (req, res) => {
   res.json(newJoke)
 })
 
+// 5. Update a part of joke
+app.patch("/jokes/:id", (req, res) => {
+  const id = parseInt(req.params.id)
+  const existingJoke = jokes.find((joke) => joke.id === id)
+  const replacementJoke = {
+    id: id,
+    jokeText: req.body.text || existingJoke.jokeText,
+    jokeType: req.body.type || existingJoke.jokeType
+  }
+  const jokeIndex = jokes.indexOf(existingJoke)
+  jokes[jokeIndex] = replacementJoke
+  res.json(replacementJoke)
+})
+
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
 });
